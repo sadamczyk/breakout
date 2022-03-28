@@ -85,12 +85,16 @@ function PlayState:update(dt)
             if brick.inPlay and ball:collides(brick) then
 
                 -- add to score
+                local oldScore = self.score
                 self.score = self.score + (brick.tier * 200 + brick.color * 25)
+
+                -- grow paddle if 1k, 2k etc. threshold was passed
+                self.paddle:setSize(math.min(4, self.paddle.size + (math.floor(self.score / 1000) - math.floor(oldScore / 1000))))
 
                 -- trigger the brick's hit function, which removes it from play
                 if brick:hit() then
                     -- Give a random chance to spawn powerup
-                    if math.random(1, #self.bricks) > 5 then
+                    if math.random(1, #self.bricks) < 3 then
                         -- Spawn powerup!
                         table.insert(self.powerups, Powerup(9, brick.x, brick.y)) -- just "+balls" for now
                     end
@@ -184,6 +188,9 @@ function PlayState:update(dt)
                     highScores = self.highScores
                 })
             else
+                -- reduce paddle size
+                self.paddle:setSize(math.max(1, self.paddle.size - 1))
+
                 if #self.balls == 1 then
                     gStateMachine:change('serve', {
                         paddle = self.paddle,
