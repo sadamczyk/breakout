@@ -66,6 +66,7 @@ function love.load()
         ['paddles'] = GenerateQuadsPaddles(gTextures['main']),
         ['balls'] = GenerateQuadsBalls(gTextures['main']),
         ['bricks'] = GenerateQuadsBricks(gTextures['main']),
+        ['powerups'] = GenerateQuadsPowerups(gTextures['main']),
         ['hearts'] = GenerateQuads(gTextures['hearts'], 10, 9)
     }
     
@@ -76,6 +77,9 @@ function love.load()
         fullscreen = false,
         resizable = true
     })
+
+    -- set master volume
+    love.audio.setVolume(0.2)
 
     -- set up our sound effects; later, we can just index this table and
     -- call each entry's `play` method
@@ -208,7 +212,7 @@ function love.draw()
     
     -- display FPS for debugging; simply comment out to remove
     displayFPS()
-    
+
     push:apply('end')
 end
 

@@ -126,7 +126,11 @@ function Brick:hit()
     if not self.inPlay then
         gSounds['brick-hit-1']:stop()
         gSounds['brick-hit-1']:play()
+
+        return true -- brick was destroyed
     end
+
+    return false -- brick was not destroyed
 end
 
 function Brick:update(dt)
